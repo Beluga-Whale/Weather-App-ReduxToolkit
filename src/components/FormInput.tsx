@@ -1,5 +1,4 @@
-import axios from 'axios';
-import React, { useEffect, Dispatch, FormEvent } from 'react';
+import React, { Dispatch, FormEvent } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { fetchWeatherByCity } from '../feature/weather/weatherSlice';
 import { useAppDispatch } from '../hooks/hooks';
@@ -7,14 +6,16 @@ import { useAppDispatch } from '../hooks/hooks';
 type WeatherProps = {
     setCity: Dispatch<React.SetStateAction<string>>;
     city: string;
+    setShow: Dispatch<React.SetStateAction<boolean>>;
 };
 
-const FormInput = ({ setCity, city }: WeatherProps) => {
+const FormInput = ({ setCity, city, setShow }: WeatherProps) => {
     const dispatch = useAppDispatch();
 
     const inputCity = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(fetchWeatherByCity(city));
+        setShow(true);
         setCity('');
     };
 
@@ -29,6 +30,7 @@ const FormInput = ({ setCity, city }: WeatherProps) => {
                 value={city}
                 onChange={e => setCity(e.target.value)}
             />
+
             <button>
                 <AiOutlineSearch className="hover:text-white" size={20} />
             </button>
