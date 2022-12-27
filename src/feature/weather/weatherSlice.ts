@@ -10,8 +10,6 @@ export const fetchWeatherByCity = createAsyncThunk(
                     import.meta.env.VITE_API_KEY
                 }`
             );
-            console.log(response.data);
-
             return response.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);

@@ -1,16 +1,38 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, Dispatch, FormEvent } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { fetchWeatherByCity } from '../feature/weather/weatherSlice';
+import { useAppDispatch } from '../hooks/hooks';
 
-type Props = {};
+type WeatherProps = {
+    setCity: Dispatch<React.SetStateAction<string>>;
+    city: string;
+};
 
-const FormInput = (props: Props) => {
+const FormInput = ({ setCity, city }: WeatherProps) => {
+    const dispatch = useAppDispatch();
+
+    const inputCity = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        dispatch(fetchWeatherByCity(city));
+        setCity('');
+    };
+
     return (
-        <div className="flex items-center justify-center mt-2 ">
-            <input className="rounded mr-2" type="text" />
+        <form
+            onSubmit={e => inputCity(e)}
+            className="flex items-center justify-center mt-2 "
+        >
+            <input
+                className="rounded mr-2"
+                type="text"
+                value={city}
+                onChange={e => setCity(e.target.value)}
+            />
             <button>
                 <AiOutlineSearch className="hover:text-white" size={20} />
             </button>
-        </div>
+        </form>
     );
 };
 
